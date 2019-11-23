@@ -4,7 +4,7 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import HomeScreen from "../screens/HomeScreen";
 import NewPatientFormScreen from "../screens/NewPatientFormScreen";
 import MenuScreen from "../screens/MenuScreen";
-// import AssetScreen from "../screens/AssetScreen";
+import RecordScreen from "../screens/RecordFormScreen";
 // import ClaimScreen from "../screens/ClaimsScreen";
 // import ExampleCamera from "../screens/ExampleCamera";
 // import ClaimFormScreen from "../screens/ClaimsFormScreen";
@@ -22,7 +22,7 @@ export default createAppContainer(
       Main: { screen: HomeScreen },
       NewPatient: { screen: NewPatientFormScreen },
       Menu: { screen: MenuScreen },
-      // Claims: { screen: ClaimScreen },
+      Record: { screen: RecordScreen },
       // ExampleCamera: { screen: ExampleCamera },
       // ClaimForm: { screen: ClaimFormScreen },
       // Profile: { screen: ProfileScreen },
@@ -31,7 +31,7 @@ export default createAppContainer(
       // Results: {screen: ResultScreen}
     },
     {
-      initialRouteName: "NewPatient"
+      initialRouteName: "Record"
     }
   )
 );

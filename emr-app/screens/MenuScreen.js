@@ -21,14 +21,9 @@ export default class MenuScreen extends Component {
     this.state = {
     };
   }
-  // onLogin() {
-  //     this.setState({ enteredPass: this.state.password });
-  //     this.props.navigation.navigate("Main");
-  // }
   render() {
     return (
       <View style={{ backgroundColor: "#e9e9e8", alignContent: "strech", flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
-
         <View style={{ backgroundColor: "#e9e9e8", marginTop: 160, alignContent: "strech", flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
           <Image
             source={require("../assets/images/logo-grey.png")}
