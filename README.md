@@ -1,3 +1,6 @@
 # hackwestern-emr
 
-HackWestern 6 project.
+HackWestern 6 project
+
+
+initial commit`
