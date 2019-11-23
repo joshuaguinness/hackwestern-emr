@@ -13,6 +13,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Icon } from 'react-native-elements';
+import axios from 'axios';
+
 
 export default class MenuScreen extends Component {
   constructor(props) {
@@ -21,6 +23,24 @@ export default class MenuScreen extends Component {
     this.state = {
     };
   }
+
+  _sendReminder() {
+    axios({
+      method: "post",
+      url: "",
+      data: {
+        
+      },
+      headers: { "Content-Type": "application/json" }
+    }).then(res => {
+      
+      console.log('result');
+      //pop up here
+      // this.props.navigation.navigate("Results", {claimAmount: res.data.claimAmount})
+    }).catch(e => {
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -105,21 +125,7 @@ export default class MenuScreen extends Component {
 
           <TouchableOpacity
             style={styles.customBtnBG1}
-            onPress={() => {
-              this.props.navigation.navigate("Set Reminder", {
-                state: {
-                  errors: [],
-                  id: "",
-                  modalVisible: false,
-                  objModalVisible: false,
-                  name: "",
-                  type: "Item",
-                  structure: "Room",
-                  cost: "",
-                  totalNumber: 2
-                }, photo64: null
-              });
-            }}
+            onPress={() => {this._sendReminder()}}
           >
             <View style={{ paddingTop: 25 }}>
               <Text
@@ -128,7 +134,7 @@ export default class MenuScreen extends Component {
                   { fontWeight: "bold", fontSize: 30 }
                 ]}
               >
-                Set Reminder
+                Send Reminder
               </Text>
             </View>
           </TouchableOpacity>
