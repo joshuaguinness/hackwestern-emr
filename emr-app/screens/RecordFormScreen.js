@@ -12,7 +12,6 @@ import {
     Text,
     TouchableOpacity,
 } from "react-native";
-import { Icon } from 'react-native-elements';
 
 export default class RecordFormScreen extends Component {
     constructor(props) {
