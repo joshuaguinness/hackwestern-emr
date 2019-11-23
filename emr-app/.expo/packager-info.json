@@ -1,10 +1,10 @@
 {
-  "devToolsPort": 19002,
+  "devToolsPort": 19003,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 6584,
-  "expoServerNgrokUrl": "https://ip-9fx.anonymous.emr-app.exp.direct",
-  "packagerNgrokUrl": "https://packager.ip-9fx.anonymous.emr-app.exp.direct",
-  "ngrokPid": 1120,
+  "packagerPid": 4778,
+  "expoServerNgrokUrl": "https://4r-a8w.anonymous.emr-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.4r-a8w.anonymous.emr-app.exp.direct",
+  "ngrokPid": 4803,
   "webpackServerPort": null
 }
