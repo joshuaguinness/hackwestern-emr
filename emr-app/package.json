@@ -21,6 +21,7 @@
     "expo-constants": "^7.0.0",
     "expo-font": "^7.0.0",
     "expo-web-browser": "^7.0.0",
+    "express": "^4.17.1",
     "mongodb-stitch-browser-core": "^4.7.1",
     "mongodb-stitch-browser-sdk": "^4.7.1",
     "mongodb-stitch-browser-services-aws": "^4.7.1",
