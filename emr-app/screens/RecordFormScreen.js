@@ -12,18 +12,48 @@ import {
     Text,
     TouchableOpacity,
 } from "react-native";
+import { Icon } from 'react-native-elements';
+import Signature from 'react-native-signature-canvas';
 
 export default class RecordFormScreen extends Component {
     constructor(props) {
         super(props);
+        this.state = { signature: null };
+    }
 
-        this.state = {
-        };
+    handleSignature = signature => {
+        this.setState({ signature });
+    };
+
+    handleEmpty = () => {
+        console.log('Empty');
     }
 
     render() {
+        const style = `.m-signature-pad--footer
+    .button {
+      background-color: red;
+      color: #FFF;
+    }`;
         return (
             <View style={styles.container}>
+                <View style={{ marginLeft: 30, marginTop: 40, width: 70, height: 30 }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            this.props.navigation.navigate("Menu");
+                        }}
+                    >
+                        <View>
+                            <Text
+                                style={[
+                                    { fontWeight: "bold", fontSize: 16, color: "black" }
+                                ]}
+                            >
+                                Back
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.headerText}>
                     <Text style={[{ paddingTop: 40 }, { fontSize: 20 }]}>Western Medical Clinic</Text>
                     <Text>1151 Richmond St, London, ON N6A 3K7</Text>
@@ -106,6 +136,23 @@ export default class RecordFormScreen extends Component {
                                 style={{ height: 100 }}
                             />
                         </View>
+                        <View style={styles.preview}>
+                            {this.state.signature ? (
+                                <Image
+                                    resizeMode={"contain"}
+                                    // style={{ width: 335, height: 114 }}
+                                    source={{ uri: this.state.signature }}
+                                />
+                            ) : null}
+                        </View>
+                        <Signature
+                            onOK={this.handleSignature}
+                            onEmpty={this.handleEmpty}
+                            // descriptionText="Sign"
+                            clearText="Clear"
+                            confirmText="Save"
+                            webStyle={style}
+                        />
                     </View>
                 </View>
 
@@ -173,5 +220,25 @@ const styles = StyleSheet.create({
     headerText: {
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    preview: {
+        width: 335,
+        height: 114,
+        backgroundColor: "#F8F8F8",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 15
+    },
+    previewText: {
+        color: "#FFF",
+        fontSize: 14,
+        height: 40,
+        lineHeight: 40,
+        paddingLeft: 10,
+        paddingRight: 10,
+        backgroundColor: "#69B2FF",
+        width: 120,
+        textAlign: "center",
+        marginTop: 10
     }
 });
