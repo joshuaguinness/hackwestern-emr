@@ -84,6 +84,9 @@ const styles = StyleSheet.create({
   },
   formCell: {
       borderRightColor: "black",
+      borderTopColor: "white",
+      borderBottomColor: "white",
+      borderLeftColor: "white",
       borderWidth: 1
   }
 });
