@@ -5,15 +5,7 @@ import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { Stitch } from "mongodb-stitch-browser-sdk";
-
 import AppNavigator from './navigation/AppNavigator';
-
-const APP_ID = "hackwester-emr-iaxfo";
-
-const app = Stitch.hasAppClient(APP_ID)
-? Stitch.getAppClient(APP_ID)
-: Stitch.initializeAppClient(APP_ID);
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
@@ -68,5 +60,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
-
-export { app };

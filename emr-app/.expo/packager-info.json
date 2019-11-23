@@ -1,10 +1,9 @@
 {
-  "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 20156,
-  "expoServerNgrokUrl": "https://6n-46r.anonymous.emr-app.exp.direct",
-  "packagerNgrokUrl": "https://packager.6n-46r.anonymous.emr-app.exp.direct",
-  "ngrokPid": 16724,
-  "webpackServerPort": null
-}
+    "devToolsPort": 19003,
+    "expoServerPort": 19000,
+    "packagerPort": 19001,
+    "packagerPid": 6320,
+    "expoServerNgrokUrl": "https://4r-a8w.anonymous.emr-app.exp.direct",
+    "packagerNgrokUrl": "https://packager.4r-a8w.anonymous.emr-app.exp.direct",
+    "ngrokPid": 6343
+  }

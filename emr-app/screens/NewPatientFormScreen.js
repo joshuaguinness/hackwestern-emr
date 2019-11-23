@@ -36,15 +36,64 @@ export default class NewPatientFormScreen extends Component {
             <View style={styles.formHeaderSection}>
                 <Text style={styles.formHeaderText}>Patient Information</Text>
             </View>
-            {/* First column*/}
+
+            {/* Name & Sex*/}
             <View style={styles.formContainer}>
-                <View style={styles.formCell}>
-                    <Text>First Name:</Text>
+                <View style={[styles.formCell, {width: "42%"}]}>
+                    <Text style={{fontWeight: "bold"}}>Last Name:</Text>
+                </View>
+                <View style={[styles.formCell, {width: "42%"}]}>
+                    <Text style={{fontWeight: "bold"}}>First Name:</Text>
                 </View>
                 <View>
-                    <Text>Last Name:</Text>
+                    <Text style={{fontWeight: "bold", paddingLeft: 5}}>Sex:</Text>
                 </View>
             </View>
+
+            {/* Address */}
+            <View style={styles.formContainer}>
+                <Text style={{fontWeight: "bold", paddingLeft: 5}}>Address:</Text>
+            </View>
+            <View style={styles.formContainer}>
+                <View style={[styles.formCell, {width: "33%"}]}>
+                    <Text style={{fontWeight: "bold"}}>City:</Text>
+                </View>
+                <View style={[styles.formCell, {width: "33%"}]}>
+                    <Text style={{fontWeight: "bold"}}>Province:</Text>
+                </View>
+                <View>
+                    <Text style={{fontWeight: "bold", paddingLeft: 5}}>Postal Code:</Text>
+                </View>
+            </View>
+
+            {/* Birthday and Health Card No. */}
+            <View style={styles.formContainer}>
+                <View style={[styles.formCell, {width: "50%"}]}>
+                    <Text style={{fontWeight: "bold"}}>Birth Date:</Text>
+                </View>
+                <View>
+                    <Text style={{fontWeight: "bold", paddingLeft: 5}}>Health Card No.:</Text>
+                </View>
+            </View>
+
+            {/* Phone Number and Occupation */}
+            <View style={styles.formContainer}>
+                <View style={[styles.formCell, {width: "33%"}]}>
+                    <Text style={{fontWeight: "bold"}}>Home Phone:</Text>
+                </View>
+                <View style={[styles.formCell, {width: "33%"}]}>
+                    <Text style={{fontWeight: "bold"}}>Cell Phone:</Text>
+                </View>
+                <View>
+                    <Text style={{fontWeight: "bold", paddingLeft: 5}}>Occupation:</Text>
+                </View>
+            </View>
+
+            {/* */}
+            {/* <View style={styles.formHeaderSection}>
+                <Text style={[styles.formHeaderText, {borderTopColor: "#bcbcbc"}]}>Emergency Contact Information</Text>
+            </View> */}
+            
         </View>
       </View>
     );
@@ -79,14 +128,16 @@ const styles = StyleSheet.create({
   formContainer: {
       flexDirection: "row",
       borderWidth: 1,
+      borderTopColor: "#e9e9e8",
       borderColor: "black",
       height: 25
   },
   formCell: {
       borderRightColor: "black",
-      borderTopColor: "white",
-      borderBottomColor: "white",
-      borderLeftColor: "white",
+      borderTopColor: "#e9e9e8",
+      borderBottomColor: "#e9e9e8",
+      borderLeftColor: "#e9e9e8",
+      paddingLeft: 5,
       borderWidth: 1
-  }
+  },
 });
