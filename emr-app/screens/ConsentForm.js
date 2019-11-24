@@ -12,12 +12,6 @@ import {
     Text,
     TouchableOpacity,
 } from "react-native";
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-
-var radio_props = [
-    { label: 'Text', value: 0 },
-    { label: 'Voice', value: 1 }
-];
 
 export default class ConsentForm extends Component {
     constructor(props) {
@@ -101,18 +95,6 @@ export default class ConsentForm extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-                </View>
-
-                <View style={{ marginLeft: "5%", marginTop: "10%" }}>
-                    <RadioForm
-                        radio_props={radio_props}
-                        initial={0}
-                        onPress={type => {
-                            type === 1
-                                ? this.setState({ type: "Structure" })
-                                : this.setState({ type: "Item" });
-                        }}
-                    />
                 </View>
             </View>
         );

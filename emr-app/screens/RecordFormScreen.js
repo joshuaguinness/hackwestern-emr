@@ -14,13 +14,6 @@ import {
 } from "react-native";
 import { Icon } from 'react-native-elements';
 import Signature from 'react-native-signature-canvas';
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-
-var radio_props = [
-    { label: 'Text', value: 0 },
-    { label: 'Voice', value: 1 }
-];
-
 
 export default class RecordFormScreen extends Component {
     constructor(props) {
@@ -67,7 +60,7 @@ export default class RecordFormScreen extends Component {
                 </View>
 
                 <View style={{
-                    borderColor: "black", backgroundColor: "#BCBCBC", width: "95%", borderWidth: 0.5, marginLeft: "2.5%", marginTop: 20
+                    borderColor: "black", backgroundColor: "#BCBCBC", width: "95%", borderWidth: 0.5, marginLeft: "2.5%", marginTop: 50
                 }}>
                     < Text style={{ fontSize: 20, textAlign: "center" }}>
                         Patient Health and Medical History
@@ -90,29 +83,18 @@ export default class RecordFormScreen extends Component {
                 </View>
                 <View style={{ borderColor: "black", backgroundColor: "white", width: "95%", borderWidth: 0.5, marginLeft: "2.5%" }}>
                     <TextInput
-                        style={{ height: 100 }}
-                    />
-                </View>
-
-                <View style={{ borderColor: "black", backgroundColor: "#BCBCBC", width: "95%", borderWidth: 0.5, marginLeft: "2.5%" }}>
-                    <Text style={{ fontSize: 20, textAlign: "center" }}>
-                        Diagnosis
-                    </Text>
-                </View>
-                <View style={{ borderColor: "black", backgroundColor: "white", width: "95%", borderWidth: 0.5, marginLeft: "2.5%" }}>
-                    <TextInput
                         style={{ height: 200 }}
                     />
                 </View>
 
                 <View style={{ borderColor: "black", backgroundColor: "#BCBCBC", width: "95%", borderWidth: 0.5, marginLeft: "2.5%" }}>
                     <Text style={{ fontSize: 20, textAlign: "center" }}>
-                        Treatment
+                        Referral Diagnosis
                     </Text>
                 </View>
                 <View style={{ borderColor: "black", backgroundColor: "white", width: "95%", borderWidth: 0.5, marginLeft: "2.5%" }}>
                     <TextInput
-                        style={{ height: 150 }}
+                        style={{ height: 200 }}
                     />
                 </View>
 
@@ -125,7 +107,7 @@ export default class RecordFormScreen extends Component {
                         </View>
                         <View style={{ borderColor: "black", backgroundColor: "white", borderWidth: 0.5 }}>
                             <TextInput
-                                style={{ height: 50 }}
+                                style={{ height: 100 }}
                             />
                         </View>
                     </View>
@@ -138,7 +120,7 @@ export default class RecordFormScreen extends Component {
                         </View>
                         <View style={{ borderColor: "black", backgroundColor: "white", borderWidth: 0.5 }}>
                             <TextInput
-                                style={{ height: 50 }}
+                                style={{ height: 100 }}
                             />
                         </View>
                     </View>
@@ -151,10 +133,10 @@ export default class RecordFormScreen extends Component {
                         </View>
                         <View style={{ borderColor: "black", backgroundColor: "white", borderWidth: 0.5 }}>
                             <TextInput
-                                style={{ height: 50 }}
+                                style={{ height: 100 }}
                             />
                         </View>
-                        {/* <View style={styles.preview}>
+                        <View style={styles.preview}>
                             {this.state.signature ? (
                                 <Image
                                     resizeMode={"contain"}
@@ -170,38 +152,43 @@ export default class RecordFormScreen extends Component {
                             clearText="Clear"
                             confirmText="Save"
                             webStyle={style}
-                        /> */}
+                        />
                     </View>
                 </View>
 
-                <View style={{ marginLeft: "75%", width: 50, height: 20, marginBottom: 20 }}>
+                <View style={{ marginBottom: "5%", marginLeft: "68%", justifyContent: "center" }}>
                     <TouchableOpacity
                         style={styles.sendInfo}
                         onPress={() => {
-                            this.props.navigation.navigate("Patient Info");
+                            this.props.navigation.navigate("Patient Info", {
+                                state: {
+                                    errors: [],
+                                    id: "",
+                                    modalVisible: false,
+                                    objModalVisible: false,
+                                    name: "",
+                                    type: "Item",
+                                    structure: "Room",
+                                    cost: "",
+                                    totalNumber: 2
+                                }, photo64: null
+                            });
                         }}
                     >
-                        <View style={{ marginTop: 20 }}>
+                        <View>
                             <Text
-                                style={{ fontSize: 16, textAlign: "center", justifyContent: "center", color: "black" }}
+                                style={[
+                                    styles.customBtnText,
+                                    { fontSize: 24, textAlign: "center", justifyContent: "center", color: "black" }
+                                ]}
                             >
                                 Save
                         </Text>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={{ marginLeft: "5%", marginBottom: "5%" }}>
-                    <RadioForm
-                        radio_props={radio_props}
-                        initial={0}
-                        onPress={type => {
-                            type === 1
-                                ? this.setState({ type: "Structure" })
-                                : this.setState({ type: "Item" });
-                        }}
-                    />
-                </View>
             </View >
+
         );
     }
 }

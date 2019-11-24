@@ -30,7 +30,7 @@ export default createAppContainer(
       // Results: {screen: ResultScreen}
     },
     {
-      initialRouteName: "Record"
+      initialRouteName: "Menu"
     }
   )
 );
