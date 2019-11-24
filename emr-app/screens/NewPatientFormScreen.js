@@ -24,9 +24,23 @@ export default class NewPatientFormScreen extends Component {
   constructor() {
     super();
     this.state = {
-      lastName: "",
-      firstName: "",
-      sex: ""
+      lastName: "Smith",
+      firstName: "Kevin",
+      sex: "M",
+      address: "1 Western Ave.",
+      city: "Toronto",
+      province: "ON",
+      postalcode: "M1V 2H5",
+      birthday: "7 July 1999",
+      healthcard: "1234567KS",
+      phone: "647-232-3232",
+      email: "kevinsmith@gmail.com",
+      occupation: "Student",
+      efullname: "Josh G",
+      eRelationship: "baby",
+      ePhone: "4167236723",
+      risk: "noo risk",
+      allergies: "peanut"
     };
   }
 
@@ -66,59 +80,135 @@ export default class NewPatientFormScreen extends Component {
           {/* Name & Sex*/}
           <View style={styles.formContainer}>
             <View style={[styles.formCell, { width: "42%" }]}>
-              <Text style={{ fontWeight: "bold" }}>Last Name:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Last Name:  </Text>
+                <Text>{this.state.lastName}</Text>
+              </Text>
             </View>
             <View style={[styles.formCell, { width: "42%" }]}>
-              <Text style={{ fontWeight: "bold" }}>First Name:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>First Name:  </Text>
+                <Text>{this.state.firstName}</Text>
+              </Text>
             </View>
-            <View>
-              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Sex:</Text>
+            <View style={styles.formCell}>
+              <Text>
+                <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Sex: </Text>
+                <Text>{this.state.sex}</Text>
+              </Text>
             </View>
           </View>
 
           {/* Address */}
           <View style={styles.formContainer}>
-            <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Address:</Text>
+            <Text>
+              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Address:  </Text>
+              <Text>{this.state.address}</Text>
+            </Text>
           </View>
           <View style={styles.formContainer}>
             <View style={[styles.formCell, { width: "33%" }]}>
-              <Text style={{ fontWeight: "bold" }}>City:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>City:  </Text>
+                <Text>{this.state.city}</Text>
+              </Text>
             </View>
             <View style={[styles.formCell, { width: "33%" }]}>
-              <Text style={{ fontWeight: "bold" }}>Province:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Province:  </Text>
+                <Text>{this.state.province}</Text>
+              </Text>
             </View>
             <View>
-              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Postal Code:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Postal Code:  </Text>
+                <Text>{this.state.postalcode}</Text>
+              </Text>
             </View>
           </View>
 
           {/* Birthday and Health Card No. */}
           <View style={styles.formContainer}>
             <View style={[styles.formCell, { width: "50%" }]}>
-              <Text style={{ fontWeight: "bold" }}>Birth Date:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Birth Date:  </Text>
+                <Text>{this.state.birthday}</Text>
+              </Text>
             </View>
             <View>
-              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Health Card No.:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Health Card No.:  </Text>
+                <Text>{this.state.healthcard}</Text>
+              </Text>
             </View>
           </View>
 
           {/* Phone Number and Occupation */}
           <View style={styles.formContainer}>
             <View style={[styles.formCell, { width: "33%" }]}>
-              <Text style={{ fontWeight: "bold" }}>Home Phone:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Phone:  </Text>
+                <Text>{this.state.phone}</Text>
+              </Text>
             </View>
             <View style={[styles.formCell, { width: "33%" }]}>
-              <Text style={{ fontWeight: "bold" }}>Cell Phone:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Email:  </Text>
+                <Text>{this.state.email}</Text>
+              </Text>
             </View>
             <View>
-              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Occupation:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Occupation:  </Text>
+                <Text>{this.state.occupation}</Text>
+              </Text>
             </View>
           </View>
 
-          {/* */}
-          {/* <View style={styles.formHeaderSection}>
-                <Text style={[styles.formHeaderText, {borderTopColor: "#bcbcbc"}]}>Emergency Contact Information</Text>
-            </View> */}
+          {/* Emergency contact */}
+          <View style={[styles.formHeaderSection, { borderTopColor: "#bcbcbc" }]}>
+            <Text style={[styles.formHeaderText]}>Emergency Contact Information</Text>
+          </View>
+          <View style={styles.formContainer}>
+            <Text>
+              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Full Name:  </Text>
+              <Text>{this.state.efullname}</Text>
+
+            </Text>
+          </View>
+          <View style={styles.formContainer}>
+            <View style={[styles.formCell, { width: "50%" }]}>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Relationship:  </Text>
+                <Text>{this.state.eRelationship}</Text>
+              </Text>
+            </View>
+            <View>
+              <Text>
+                <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Phone:  </Text>
+                <Text>{this.state.ePhone}</Text>
+              </Text>
+            </View>
+          </View>
+
+          <View style={[styles.formHeaderSection, { borderTopColor: "#bcbcbc" }]}>
+            <Text style={[styles.formHeaderText]}>Risk Factors</Text>
+          </View>
+
+          <View style={[styles.formContainer, { height: 70 }]}>
+            <View>
+              <Text style={{ paddingLeft: 5 }}></Text>
+              <Text>{this.state.risk}</Text>
+            </View>
+          </View>
+
+          <View style={[styles.formHeaderSection, { borderTopColor: "#bcbcbc" }]}>
+            <Text style={[styles.formHeaderText]}>Allergies</Text>
+          </View>
+          <View style={[styles.formContainer, { height: 70 }]}>
+            <Text style={{ paddingLeft: 5 }}></Text>
+            <Text>{this.state.allergies}</Text>
+          </View>
 
         </View>
         <View style={{ marginLeft: "5%", marginTop: "10%" }}>
