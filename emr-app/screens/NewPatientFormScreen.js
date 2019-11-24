@@ -10,28 +10,179 @@ import {
   View,
   Dimensions,
 } from 'react-native';
+import * as FileSystem from 'expo-file-system';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
+import * as Permissions from 'expo-permissions';
+import { Audio } from 'expo-av';
 
 var radio_props = [
   { label: 'Text', value: 0 },
   { label: 'Voice', value: 1 }
 ];
 
+const recordingOptions = {
+  // android not currently in use, but parameters are required
+  android: {
+    extension: '.m4a',
+    outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
+    audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+    sampleRate: 44100,
+    numberOfChannels: 2,
+    bitRate: 128000,
+  },
+  ios: {
+    extension: '.wav',
+    audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_HIGH,
+    sampleRate: 44100,
+    numberOfChannels: 1,
+    bitRate: 128000,
+    linearPCMBitDepth: 16,
+    linearPCMIsBigEndian: false,
+    linearPCMIsFloat: false,
+  },
+};
 
 export default class NewPatientFormScreen extends Component {
-
   constructor() {
     super();
     this.state = {
-      lastName: "",
-      firstName: "",
-      sex: ""
+      array: ["Last Name:  ", "First Name:  ", "Sex:  ", "Address:  ", "City:  ", "Province:  ", "Postal Code:  ", "Birth Date:  ",
+        "Health Card No.:  ", "Phone Number:  ", "Email:  ", "Occupation:  ", "Full Name:  ", "Relationship:  ", "Phone Number:  ", "Risk Factors:  ", "Allergies:  "],
+      array2: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      curIndex: 0,
+      done: false,
+      // lastName: "Smith",
+      // firstName: "Kevin",
+      // sex: "M",
+      // address: "1 Western Ave.",
+      // city: "Toronto",
+      // province: "ON",
+      // postalcode: "M1V 2H5",
+      // birthday: "7 July 1999",
+      // healthcard: "1234567KS",
+      // phone: "647-232-3232",
+      // email: "kevinsmith@gmail.com",
+      // occupation: "Student",
+      // efullname: "Josh G",
+      // eRelationship: "baby",
+      // ePhone: "4167236723",
+      // risk: "noo risk",
+      // allergies: "peanut",
+      recording: null
     };
   }
 
   componentDidMount() {
     // 
+  }
+
+  async startRecording() {
+    const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
+    if (status !== 'granted') return;
+    console.log("sir");
+    this.setState({ isRecording: true });
+    // some of these are not applicable, but are required
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: true,
+      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+      playsInSilentModeIOS: true,
+      shouldDuckAndroid: true,
+      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+      playThroughEarpieceAndroid: true,
+      staysActiveInBackground: false
+    });
+    const recording = new Audio.Recording();
+    try {
+      await recording.prepareToRecordAsync(recordingOptions);
+      await recording.startAsync();
+    } catch (error) {
+      console.log(error);
+      this.stopRecording();
+    }
+    this.recording = recording;
+    console.log(this.recording.getURI());
+  }
+
+  async getTranscription() {
+    this.setState({ isFetching: true });
+    try {
+      const info = await FileSystem.getInfoAsync(this.recording.getURI());
+      console.log(`FILE INFO: ${JSON.stringify(info)}`);
+      const uri = info.uri;
+      const formData = new FormData();
+      formData.append('file', {
+        uri,
+        type: 'audio/x-wav',
+        // could be anything 
+        name: 'speech2text'
+      });
+      console.log(`FORMDATA INFO: ${JSON.stringify(formData)}`);
+
+      const response = await fetch("https://us-central1-hackthe6-emr-1574519352014.cloudfunctions.net/audioToText", {
+        method: 'POST',
+        body: formData
+      });
+      const data = await response.json();
+      this.setState({ query: data.transcript });
+
+      let valueArray = this.state.array2;
+      console.log(this.state.array2);
+
+      valueArray[this.state.curIndex] = data.transcript;
+      this.setState({ array2: valueArray });
+
+      if (this.state.curIndex < this.state.array2.length) {
+        this.setState({ curIndex: this.state.curIndex + 1 })
+      }
+      else {
+        this.setState({ done: true })
+      }
+
+      console.log(data.transcript);
+    } catch (error) {
+      console.log('There was an error', error);
+      this.stopRecording();
+      this.resetRecording();
+    }
+    this.setState({ isFetching: false });
+  }
+
+  stopRecording = async () => {
+    this.setState({ isRecording: false });
+    try {
+      await this.recording.stopAndUnloadAsync();
+    } catch (error) {
+      // Do nothing -- we are already unloaded.
+    }
+  }
+
+  handleOnPressIn = () => {
+    this.startRecording();
+  }
+
+  handleOnPressOut = () => {
+    this.stopRecording();
+    this.getTranscription();
+  }
+
+  handlQueryChange = (query) => {
+    this.setState({ query });
+  }
+
+  deleteRecordingFile = async () => {
+    console.log("Deleting file");
+    try {
+      const info = await FileSystem.getInfoAsync(this.recording.getURI());
+      await FileSystem.deleteAsync(info.uri)
+    } catch (error) {
+      console.log("There was an error deleting recording file", error);
+    }
+  }
+
+  resetRecording = () => {
+    this.deleteRecordingFile();
+    this.recording = null;
   }
 
   render() {
@@ -66,59 +217,135 @@ export default class NewPatientFormScreen extends Component {
           {/* Name & Sex*/}
           <View style={styles.formContainer}>
             <View style={[styles.formCell, { width: "42%" }]}>
-              <Text style={{ fontWeight: "bold" }}>Last Name:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Last Name:  </Text>
+                <Text>{this.state.array2[0]}</Text>
+              </Text>
             </View>
             <View style={[styles.formCell, { width: "42%" }]}>
-              <Text style={{ fontWeight: "bold" }}>First Name:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>First Name:  </Text>
+                <Text>{this.state.array2[1]}</Text>
+              </Text>
             </View>
             <View>
-              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Sex:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Sex: </Text>
+                <Text>{this.state.array2[3]}</Text>
+              </Text>
             </View>
           </View>
 
           {/* Address */}
           <View style={styles.formContainer}>
-            <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Address:</Text>
+            <Text>
+              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Address:  </Text>
+              <Text>{this.state.array2[4]}</Text>
+            </Text>
           </View>
           <View style={styles.formContainer}>
             <View style={[styles.formCell, { width: "33%" }]}>
-              <Text style={{ fontWeight: "bold" }}>City:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>City:  </Text>
+                <Text>{this.state.array2[5]}</Text>
+              </Text>
             </View>
             <View style={[styles.formCell, { width: "33%" }]}>
-              <Text style={{ fontWeight: "bold" }}>Province:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Province:  </Text>
+                <Text>{this.state.array2[6]}</Text>
+              </Text>
             </View>
             <View>
-              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Postal Code:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Postal Code:  </Text>
+                <Text>{this.state.array2[7]}</Text>
+              </Text>
             </View>
           </View>
 
           {/* Birthday and Health Card No. */}
           <View style={styles.formContainer}>
             <View style={[styles.formCell, { width: "50%" }]}>
-              <Text style={{ fontWeight: "bold" }}>Birth Date:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Birth Date:  </Text>
+                <Text>{this.state.array2[8]}</Text>
+              </Text>
             </View>
             <View>
-              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Health Card No.:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Health Card No.:  </Text>
+                <Text>{this.state.array2[9]}</Text>
+              </Text>
             </View>
           </View>
 
           {/* Phone Number and Occupation */}
           <View style={styles.formContainer}>
             <View style={[styles.formCell, { width: "33%" }]}>
-              <Text style={{ fontWeight: "bold" }}>Home Phone:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Phone:  </Text>
+                <Text>{this.state.array2[10]}</Text>
+              </Text>
             </View>
             <View style={[styles.formCell, { width: "33%" }]}>
-              <Text style={{ fontWeight: "bold" }}>Cell Phone:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Email:  </Text>
+                <Text>{this.state.array2[11]}</Text>
+              </Text>
             </View>
             <View>
-              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Occupation:</Text>
+              <Text>
+                <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Occupation:  </Text>
+                <Text>{this.state.array2[12]}</Text>
+              </Text>
             </View>
           </View>
 
-          {/* */}
-          {/* <View style={styles.formHeaderSection}>
-                <Text style={[styles.formHeaderText, {borderTopColor: "#bcbcbc"}]}>Emergency Contact Information</Text>
-            </View> */}
+          {/* Emergency contact */}
+          <View style={[styles.formHeaderSection, { borderTopColor: "#bcbcbc" }]}>
+            <Text style={[styles.formHeaderText]}>Emergency Contact Information</Text>
+          </View>
+          <View style={styles.formContainer}>
+            <Text>
+              <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Full Name:  </Text>
+              <Text>{this.state.array2[13]}</Text>
+
+            </Text>
+          </View>
+          <View style={styles.formContainer}>
+            <View style={[styles.formCell, { width: "50%" }]}>
+              <Text>
+                <Text style={{ fontWeight: "bold" }}>Relationship:  </Text>
+                <Text>{this.state.array2[14]}</Text>
+              </Text>
+            </View>
+            <View>
+              <Text>
+                <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Phone:  </Text>
+                <Text>{this.state.array2[15]}</Text>
+              </Text>
+            </View>
+          </View>
+
+          <View style={[styles.formHeaderSection, { borderTopColor: "#bcbcbc" }]}>
+            <Text style={[styles.formHeaderText]}>Risk Factors</Text>
+          </View>
+
+          <View style={[styles.formContainer, { height: 70 }]}>
+            <View>
+              <Text style={{ paddingLeft: 5 }}></Text>
+              <Text>{this.state.array2[16]}</Text>
+            </View>
+          </View>
+
+          <View style={[styles.formHeaderSection, { borderTopColor: "#bcbcbc" }]}>
+            <Text style={[styles.formHeaderText]}>Allergies</Text>
+          </View>
+          <View style={[styles.formContainer, { height: 70 }]}>
+            <Text style={{ paddingLeft: 5 }}></Text>
+            <Text>{this.state.array2[17]}</Text>
+          </View>
 
         </View>
         <View style={{ marginLeft: "5%", marginTop: "10%" }}>
@@ -131,6 +358,53 @@ export default class NewPatientFormScreen extends Component {
                 : this.setState({ type: "Item" });
             }}
           />
+        </View>
+
+        <View>
+          <TouchableOpacity
+            style={styles.sendInfo}
+            onPress={() => {
+              this.setState({ curIndex: this.state.curIndex - 1 });
+            }}
+          >
+            <View style={{ marginTop: 20 }}>
+              <Text>
+                Previous
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <TouchableOpacity
+            style={styles.sendInfo}
+            // onPress={async () => {
+            //   await this.startRecording();
+            //   await this.getTranscription();
+            // }}
+            onPressIn={this.handleOnPressIn}
+            onPressOut={this.handleOnPressOut}
+          >
+            <View style={{ marginTop: 20 }}>
+              <Text>
+                Record
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <TouchableOpacity
+            style={styles.sendInfo}
+            onPress={() => {
+            }}
+          >
+            <View style={{ marginTop: 20 }}>
+              <Text>
+                Next
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -149,6 +423,21 @@ const styles = StyleSheet.create({
   headerText: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  sendInfo: {
+    backgroundColor: "#BCBCBC",
+    opacity: 0.85,
+    borderRadius: 5,
+    borderWidth: 0.5,
+    borderColor: "black",
+    width: (Dimensions.get("window").width * 4) / 20,
+    height: (Dimensions.get("window").width * 3) / 40,
+    marginRight: "0%",
+    marginLeft: "8%",
+    marginTop: "8%",
+    shadowOffset: { width: 1, height: 4 },
+    shadowOpacity: 0.8,
+    shadowColor: "#8C8C8C",
   },
   formHeaderSection: {
     justifyContent: 'center',
