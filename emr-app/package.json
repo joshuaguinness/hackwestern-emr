@@ -20,11 +20,7 @@
     "babel-preset-react-native": "^4.0.1",
     "expo": "^35.0.0",
     "expo-asset": "^7.0.0",
-<<<<<<< HEAD
-    "expo-av": "~7.0.1",
-=======
     "expo-av": "^7.0.1",
->>>>>>> e34c11522ea1b2df82952492858c0adbac90a333
     "expo-constants": "^7.0.0",
     "expo-file-system": "^7.0.0",
     "expo-font": "^7.0.0",
