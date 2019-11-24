@@ -41,28 +41,35 @@ export default class MenuScreen extends Component {
 
   render() {
     return (
-      <View style={{ backgroundColor: "#e9e9e8", alignContent: "strech", flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
-        <View style={{ backgroundColor: "#e9e9e8", marginTop: 160, alignContent: "strech", flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+      <View style={styles.container}>
+        <View style={{ marginLeft: 30, marginTop: 40, width: 70, height: 30 }}>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate("Main");
+            }}
+          >
+            <View>
+              <Text
+                style={[
+                  { fontWeight: "bold", fontSize: 16, color: "black" }
+                ]}
+              >
+                Back
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View style={{ marginTop: 100, alignContent: "strech", flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+
           <Image
             source={require("../assets/images/logo-grey.png")}
             style={{ marginLeft: "15%" }}
           />
+
           <TouchableOpacity
             style={styles.customBtnBG1}
             onPress={() => {
-              this.props.navigation.navigate("Patient Info", {
-                state: {
-                  errors: [],
-                  id: "",
-                  modalVisible: false,
-                  objModalVisible: false,
-                  name: "",
-                  type: "Item",
-                  structure: "Room",
-                  cost: "",
-                  totalNumber: 2
-                }, photo64: null
-              });
+              this.props.navigation.navigate("NewPatient");
             }}
           >
             <View style={{ paddingTop: 25 }}>
@@ -80,19 +87,7 @@ export default class MenuScreen extends Component {
           <TouchableOpacity
             style={styles.customBtnBG1}
             onPress={() => {
-              this.props.navigation.navigate("Patient Records", {
-                state: {
-                  errors: [],
-                  id: "",
-                  modalVisible: false,
-                  objModalVisible: false,
-                  name: "",
-                  type: "Item",
-                  structure: "Room",
-                  cost: "",
-                  totalNumber: 2
-                }, photo64: null
-              });
+              this.props.navigation.navigate("Record");
             }}
           >
 
@@ -111,19 +106,7 @@ export default class MenuScreen extends Component {
           <TouchableOpacity
             style={styles.customBtnBG1}
             onPress={() => {
-              this.props.navigation.navigate("Contact Patient", {
-                state: {
-                  errors: [],
-                  id: "",
-                  modalVisible: false,
-                  objModalVisible: false,
-                  name: "",
-                  type: "Item",
-                  structure: "Room",
-                  cost: "",
-                  totalNumber: 2
-                }, photo64: null
-              });
+              this.props.navigation.navigate("Contact Patient");
             }}
           >
             <View style={{ paddingTop: 25 }}>
@@ -165,6 +148,10 @@ MenuScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#e9e9e8",
+    flex: 1,
+  },
   customBtnText: {
     fontWeight: "400",
     textAlign: "center",
