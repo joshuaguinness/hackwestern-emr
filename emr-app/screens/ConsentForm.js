@@ -23,6 +23,23 @@ export default class ConsentForm extends Component {
     render() {
         return (
             <View style={styles.container}>
+                <View style={{ marginLeft: 30, marginTop: 40, width: 70, height: 30 }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                        this.props.navigation.navigate("Menu");
+                        }}
+                    >
+                        <View>
+                        <Text
+                            style={[
+                            { fontWeight: "bold", fontSize: 16, color: "black" }
+                            ]}
+                        >
+                            Back
+                        </Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.headerText}>
                     <Text style={[{ paddingTop: 40 }, { fontSize: 20 }]}>Western Medical Clinic</Text>
                     <Text>1151 Richmond St, London, ON N6A 3K7</Text>
@@ -63,7 +80,7 @@ export default class ConsentForm extends Component {
                                 />
                             </View>
                         </View>
-                        <View style={{ marginLeft: "3%", marginTop: "5%" }}>
+                        {/* <View style={{ marginLeft: "3%", marginTop: "5%" }}>
                             <TouchableOpacity
                                 style={styles.recordButton}
                                 onPress={() => {
@@ -93,7 +110,8 @@ export default class ConsentForm extends Component {
                                 </Text>
                                 </View>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
+
                     </View>
                 </View>
             </View>

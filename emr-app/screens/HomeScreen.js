@@ -11,6 +11,7 @@ import {
   Dimensions,
 } from 'react-native';
 import SearchableDropdown from 'react-native-searchable-dropdown';
+import axios from 'axios';
 
 
 export default class HomeScreen extends Component {
@@ -18,88 +19,22 @@ export default class HomeScreen extends Component {
   constructor() {
     super();
     this.state = {
-      serverData: [
-        {
-          id: 1,
-          name: 'Javascript'
-        },
-        {
-          id: 2,
-          name: 'Java'
-        },
-        {
-          id: 3,
-          name: 'Ruby'
-        },
-        {
-          id: 4,
-          name: 'React Native'
-        },
-        {
-          id: 5,
-          name: 'PHP'
-        },
-        {
-          id: 6,
-          name: 'Python'
-        },
-        {
-          id: 7,
-          name: 'Go'
-        },
-        {
-          id: 8,
-          name: 'Swift'
-        },
-        {
-          id: 1,
-          name: 'Javascript1'
-        },
-        {
-          id: 2,
-          name: 'Java1'
-        },
-        {
-          id: 3,
-          name: 'Ruby1'
-        },
-        {
-          id: 4,
-          name: 'React Native1'
-        },
-        {
-          id: 5,
-          name: 'PHP1'
-        },
-        {
-          id: 6,
-          name: 'Python1'
-        },
-        {
-          id: 7,
-          name: 'Go1'
-        },
-        {
-          id: 8,
-          name: 'Swift1'
-        },
-      ],
+      serverData: [],
       //Data Source for the SearchableDropdown
     };
   }
 
-  componentDidMount() {
-    fetch('https://aboutreact.000webhostapp.com/demo/webservice/demosearchables.php')
-      .then(response => response.json())
-      .then(responseJson => {
-        //Successful response from the API Call
-        this.setState({
-          serverData: [...this.state.serverData, ...responseJson.results],
-          //adding the new data in Data Source of the SearchableDropdown
-        });
+  componentWillUnmount() {
+    
+  }
+  
+  _getPatientList(){
+    axios.get("https://hackwestern-emr.herokuapp.com/api/patients/getAllPatientNames")
+      .then(res => {
+        this.setState({serverData: res.data});
       })
       .catch(error => {
-        console.error(error);
+        console.log(error);
       });
   }
 
@@ -107,7 +42,11 @@ export default class HomeScreen extends Component {
     return(
       <View style={styles.addBtnContainer}>
         <View style={styles.addBtn}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate("NewPatient");
+            }}
+          >
             <View>
               <Text style={styles.addBtnText}>Add New Patient</Text>
             </View>           
@@ -153,8 +92,8 @@ export default class HomeScreen extends Component {
               color: '#222'
             }}
             itemsContainerStyle={{
-              maxHeight: "52.8%",
-              paddingTop: 2
+              maxHeight: "85.9%",
+              paddingTop: 2,
             }}
             items={this.state.serverData}
             placeholder="Enter Patient Name"
@@ -162,6 +101,7 @@ export default class HomeScreen extends Component {
             underlineColorAndroid='transparent'
           />
           {this._renderAddPatientBtn()}
+          {this._getPatientList()}
         </View>
       </View>
     );

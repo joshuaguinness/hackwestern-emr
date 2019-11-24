@@ -1,22 +1,17 @@
 import React, { Component } from "react";
 import {
-  Alert,
-  Button,
-  TextInput,
   Dimensions,
   View,
   StyleSheet,
   Image,
-  Platform,
-  ScrollView,
   Text,
   TouchableOpacity,
 } from "react-native";
-import { Icon } from 'react-native-elements';
 import axios from 'axios';
 
 
 export default class MenuScreen extends Component {
+  
   constructor(props) {
     super(props);
 
@@ -24,19 +19,29 @@ export default class MenuScreen extends Component {
     };
   }
 
+  componentDidUpdate() {
+
+  }
+  
   _sendReminder() {
     console.log("MY NAME");
     axios({
       method: "post",
       url: "https://hackwestern-emr.herokuapp.com/"
     })
-    .then(res => {
-      console.log(res.status);
-      console.log(res.data);
-      //pop up here
-      // this.props.navigation.navigate("Results", {claimAmount: res.data.claimAmount})
-    }).catch(e => {
-    });
+      .then(res => {
+        console.log(res.status);
+        console.log(res.data);
+        //pop up here
+        // this.props.navigation.navigate("Results", {claimAmount: res.data.claimAmount})
+      }).catch(e => {
+      });
+  }
+
+  _test() {
+    // const [state, dispatch] = React.useReducer(todoReducer, { todos: [] });
+
+
   }
 
   render() {
@@ -59,13 +64,13 @@ export default class MenuScreen extends Component {
             </View>
           </TouchableOpacity>
         </View>
-        <View style={{ marginTop: 100, alignContent: "strech", flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
+        <View style={{ marginTop: 100, marginLeft: 38, alignContent: "strech", flex: 1, flexDirection: "row", flexWrap: "wrap" }}>
 
           <Image
             source={require("../assets/images/logo-grey.png")}
-            style={{ marginLeft: "15%" }}
+            style={{ marginLeft: "12%" }}
           />
-
+        <View>
           <TouchableOpacity
             style={styles.customBtnBG1}
             onPress={() => {
@@ -83,7 +88,8 @@ export default class MenuScreen extends Component {
               </Text>
             </View>
           </TouchableOpacity>
-
+          </View>
+          <View>
           <TouchableOpacity
             style={styles.customBtnBG1}
             onPress={() => {
@@ -102,28 +108,29 @@ export default class MenuScreen extends Component {
               </Text>
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.customBtnBG1}
-            onPress={() => {
-              this.props.navigation.navigate("Contact Patient");
-            }}
-          >
-            <View style={{ paddingTop: 25 }}>
-              <Text
-                style={[
-                  styles.customBtnText,
-                  { fontWeight: "bold", fontSize: 30 }
-                ]}
-              >
-                Contact Patient
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <View>
+          </View>
+          <View style={{ paddingTop: 25 }}>
             <TouchableOpacity
               style={styles.customBtnBG1}
-              onPress={() => {this._sendReminder()}}
+              onPress={() => {this.props.navigation.navigate("Consent") }}
+            >
+              <View style={{ paddingTop: 25 }}>
+                <Text
+                  style={[
+                    styles.customBtnText,
+                    { fontWeight: "bold", fontSize: 30 }
+                  ]}
+                >
+                  Forms
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <View style={{ paddingTop: 25 }}>
+            <TouchableOpacity
+              style={styles.customBtnBG1}
+              onPress={() => { 
+                this._sendReminder(); alert("Reminder has been sent!"); }}
             >
               <View style={{ paddingTop: 25 }}>
                 <Text

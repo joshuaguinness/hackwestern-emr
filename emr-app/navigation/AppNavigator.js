@@ -6,6 +6,8 @@ import NewPatientFormScreen from "../screens/NewPatientFormScreen";
 import MenuScreen from "../screens/MenuScreen";
 import RecordScreen from "../screens/RecordFormScreen";
 import ConsentForm from "../screens/ConsentForm";
+import LoginScreen from "../screens/LoginScreen"
+import PatientFilled from "../screens/PatientFilled"
 // import ExampleCamera from "../screens/ExampleCamera";
 // import ClaimFormScreen from "../screens/ClaimsFormScreen";
 // import ProfileScreen from "../screens/ProfileScreen";
@@ -23,14 +25,17 @@ export default createAppContainer(
       NewPatient: { screen: NewPatientFormScreen },
       Menu: { screen: MenuScreen },
       Record: { screen: RecordScreen },
-      Consent: { screen: ConsentForm }
+      Consent: { screen: ConsentForm },
+      Login: {screen: LoginScreen},
+      Filled: {screen: PatientFilled}
+
       // Profile: { screen: ProfileScreen },
       // AssetCamera: {screen: AssetCamera},
       // Systems: { screen: SystemsScreen },
       // Results: {screen: ResultScreen}
     },
     {
-      initialRouteName: "Menu"
+      initialRouteName: "Login"
     }
   )
 );
