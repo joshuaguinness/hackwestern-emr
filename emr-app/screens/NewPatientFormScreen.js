@@ -49,26 +49,9 @@ export default class NewPatientFormScreen extends Component {
     this.state = {
       array: ["Last Name:  ", "First Name:  ", "Sex:  ", "Address:  ", "City:  ", "Province:  ", "Postal Code:  ", "Birth Date:  ",
         "Health Card No.:  ", "Phone Number:  ", "Email:  ", "Occupation:  ", "Full Name:  ", "Relationship:  ", "Phone Number:  ", "Risk Factors:  ", "Allergies:  "],
-      array2: ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+      array2: ["*", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
       curIndex: 0,
       done: false,
-      // lastName: "Smith",
-      // firstName: "Kevin",
-      // sex: "M",
-      // address: "1 Western Ave.",
-      // city: "Toronto",
-      // province: "ON",
-      // postalcode: "M1V 2H5",
-      // birthday: "7 July 1999",
-      // healthcard: "1234567KS",
-      // phone: "647-232-3232",
-      // email: "kevinsmith@gmail.com",
-      // occupation: "Student",
-      // efullname: "Josh G",
-      // eRelationship: "baby",
-      // ePhone: "4167236723",
-      // risk: "noo risk",
-      // allergies: "peanut",
       recording: null
     };
   }
@@ -131,13 +114,6 @@ export default class NewPatientFormScreen extends Component {
 
       valueArray[this.state.curIndex] = data.transcript;
       this.setState({ array2: valueArray });
-
-      if (this.state.curIndex < this.state.array2.length) {
-        this.setState({ curIndex: this.state.curIndex + 1 })
-      }
-      else {
-        this.setState({ done: true })
-      }
 
       console.log(data.transcript);
     } catch (error) {
@@ -367,7 +343,7 @@ export default class NewPatientFormScreen extends Component {
               this.setState({ curIndex: this.state.curIndex - 1 });
             }}
           >
-            <View style={{ marginTop: 20 }}>
+            <View style={{ marginTop: 20, alignItems: "center" }}>
               <Text>
                 Previous
               </Text>
@@ -378,14 +354,10 @@ export default class NewPatientFormScreen extends Component {
         <View>
           <TouchableOpacity
             style={styles.sendInfo}
-            // onPress={async () => {
-            //   await this.startRecording();
-            //   await this.getTranscription();
-            // }}
             onPressIn={this.handleOnPressIn}
             onPressOut={this.handleOnPressOut}
           >
-            <View style={{ marginTop: 20 }}>
+            <View style={{ marginTop: 20, alignItems: "center" }}>
               <Text>
                 Record
               </Text>
@@ -397,16 +369,44 @@ export default class NewPatientFormScreen extends Component {
           <TouchableOpacity
             style={styles.sendInfo}
             onPress={() => {
+              let theArray = this.state.array2;
+              theArray[this.state.curIndex + 1] = "*"
+              this.setState({ curIndex: this.state.curIndex + 1, array2: theArray });
+              if (this.state.curIndex < this.state.array2.length) {
+                this.setState({ curIndex: this.state.curIndex + 1 })
+              }
+              else {
+                this.setState({ done: true })
+              }
             }}
           >
-            <View style={{ marginTop: 20 }}>
+            <View style={{ marginTop: 20, alignItems: "center" }}>
               <Text>
                 Next
               </Text>
             </View>
           </TouchableOpacity>
         </View>
-      </View>
+
+        {(this.state.done === true) ?
+          <View>
+            <TouchableOpacity
+              style={styles.sendInfo}
+              onPress={() => {
+
+              }}
+            >
+              <View style={{ marginTop: 20, alignItems: "center" }}>
+                <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+                  Done
+              </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          :
+          null
+        }
+      </View >
     );
   }
 }
@@ -434,7 +434,7 @@ const styles = StyleSheet.create({
     height: (Dimensions.get("window").width * 3) / 40,
     marginRight: "0%",
     marginLeft: "8%",
-    marginTop: "8%",
+    marginTop: "3%",
     shadowOffset: { width: 1, height: 4 },
     shadowOpacity: 0.8,
     shadowColor: "#8C8C8C",
