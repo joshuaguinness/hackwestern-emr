@@ -20,15 +20,18 @@ export default class HomeScreen extends Component {
     super();
     this.state = {
       serverData: [],
+      value: ""
       //Data Source for the SearchableDropdown
     };
   }
 
-  componentWillUnmount() {
-    
+  componentDidUpdate() {
+    if (this.state.value != "") {
+      this.props.navigation.navigate("Menu");
+    }
   }
-  
-  _getPatientList(){
+
+  componentDidMount(){
     axios.get("https://hackwestern-emr.herokuapp.com/api/patients/getAllPatientNames")
       .then(res => {
         this.setState({serverData: res.data});
@@ -36,6 +39,9 @@ export default class HomeScreen extends Component {
       .catch(error => {
         console.log(error);
       });
+  }
+  componentDidCatch(error, info){
+    this.setState({value: "error"})
   }
 
   _renderAddPatientBtn(){
@@ -68,7 +74,10 @@ export default class HomeScreen extends Component {
           <Text style={styles.searchBarText}>Find a patient:</Text>
           <SearchableDropdown
             onTextChange={(text) =>  console.log(text)}
-            onItemSelect={(item) =>  alert(JSON.stringify(item))}
+            onItemSelect={(item) => { 
+              this.setState({value: "hi"});
+            }}
+
             containerStyle={{
               padding: 5
             }}
@@ -101,7 +110,6 @@ export default class HomeScreen extends Component {
             underlineColorAndroid='transparent'
           />
           {this._renderAddPatientBtn()}
-          {this._getPatientList()}
         </View>
       </View>
     );

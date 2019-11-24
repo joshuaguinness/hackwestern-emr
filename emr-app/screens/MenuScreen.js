@@ -74,7 +74,7 @@ export default class MenuScreen extends Component {
           <TouchableOpacity
             style={styles.customBtnBG1}
             onPress={() => {
-              this.props.navigation.navigate("NewPatient");
+              this.props.navigation.navigate("Filled");
             }}
           >
             <View style={{ paddingTop: 25 }}>
