@@ -25,16 +25,14 @@ export default class MenuScreen extends Component {
   }
 
   _sendReminder() {
+    console.log("MY NAME");
     axios({
       method: "post",
-      url: "",
-      data: {
-        
-      },
-      headers: { "Content-Type": "application/json" }
-    }).then(res => {
-      
-      console.log('result');
+      url: "https://hackwestern-emr.herokuapp.com/"
+    })
+    .then(res => {
+      console.log(res.status);
+      console.log(res.data);
       //pop up here
       // this.props.navigation.navigate("Results", {claimAmount: res.data.claimAmount})
     }).catch(e => {
@@ -139,22 +137,23 @@ export default class MenuScreen extends Component {
               </Text>
             </View>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.customBtnBG1}
-            onPress={() => {this._sendReminder()}}
-          >
-            <View style={{ paddingTop: 25 }}>
-              <Text
-                style={[
-                  styles.customBtnText,
-                  { fontWeight: "bold", fontSize: 30 }
-                ]}
-              >
-                Send Reminder
-              </Text>
-            </View>
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity
+              style={styles.customBtnBG1}
+              onPress={() => {this._sendReminder()}}
+            >
+              <View style={{ paddingTop: 25 }}>
+                <Text
+                  style={[
+                    styles.customBtnText,
+                    { fontWeight: "bold", fontSize: 30 }
+                  ]}
+                >
+                  Send Reminder
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
