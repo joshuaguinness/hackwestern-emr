@@ -91,7 +91,7 @@ export default class NewPatientFormScreen extends Component {
                 <Text>{this.state.firstName}</Text>
               </Text>
             </View>
-            <View style={styles.formCell}>
+            <View>
               <Text>
                 <Text style={{ fontWeight: "bold", paddingLeft: 5 }}>Sex: </Text>
                 <Text>{this.state.sex}</Text>
