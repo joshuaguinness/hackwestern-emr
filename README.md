@@ -6,7 +6,7 @@ Developed an accessible, voice-enabled electronic medical record system which st
 
 This project was inspired by Leon's father's first-hand experience with a lack of electronic medical records and realizing the need for more accessible patient experience.
 
-The Devpost cane be found here: https://devpost.com/software/medisign
+The Devpost can be found here: https://devpost.com/software/medisign
 
 ## How It Is Built
 
@@ -18,6 +18,6 @@ Login screen and patient record form
 
 <img src="https://github.com/joshuaguinness/hackwestern-emr/blob/master/emr-pictures/login.jpg" width="417" height="597"> <img src="https://github.com/joshuaguinness/hackwestern-emr/blob/master/emr-pictures/form.jpg" width="417" height="597">
 
-List of patients in the database and possible actions to perform with patient record
+List of patients in the database and possible actions to perform with a patient record
 
 <img src="https://github.com/joshuaguinness/hackwestern-emr/blob/master/emr-pictures/patients.jpg" width="417" height="597"> <img src="https://github.com/joshuaguinness/hackwestern-emr/blob/master/emr-pictures/actions.jpg" width="417" height="597">
