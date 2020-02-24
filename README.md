@@ -2,7 +2,7 @@
 
 ![Logo](emr-pictures/logo.png)
 
-Developed an accessible, voice-enabled electronic medical record system which stores patients’ medical records, and allows patients to fill out medical forms using speech-to-text. Our theme while building it was accessibility, hence the voice control integration, simple and easy to understand UI, and big, bold colours.
+Developed an accessible, voice-enabled electronic medical record system which stores patients’ medical records, allows patients to fill out medical forms using speech-to-text, and provide an electronic voice signature. Our theme while building it was accessibility, hence the voice control integration, simple and easy to understand UI, and big, bold colours.
 
 This project was inspired by Leon's father's first-hand experience with a lack of electronic medical records and realizing the need for more accessible patient experience.
 
@@ -21,3 +21,5 @@ Login screen and patient record form
 List of patients in the database and possible actions to perform with a patient record
 
 <img src="https://github.com/joshuaguinness/hackwestern-emr/blob/master/emr-pictures/patients.jpg" width="417" height="597"> <img src="https://github.com/joshuaguinness/hackwestern-emr/blob/master/emr-pictures/actions.jpg" width="417" height="597">
+
+A demonstration video showing the text-to-speech functionality can be found here: https://youtu.be/CzdRG3rPEl0
